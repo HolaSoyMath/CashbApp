@@ -11,6 +11,7 @@ import Beneficios from './projeto/frontend/screens/beneficios'
 import BeneficioPix from './projeto/frontend/screens/beneficioPix'
 import VendaRegistrada from './projeto/frontend/screens/vendaRegistrada'
 import BeneficioInfo from './projeto/frontend/screens/beneficioInfo'
+import PontosTrocados from './projeto/frontend/screens/pontosTrocados'
 
 
 const Stack = createStackNavigator();
@@ -53,6 +54,14 @@ function MyStack() {
       <Stack.Screen 
         name="BeneficioInfo" 
         component={BeneficioInfo}
+        options={{
+          title: '',
+          headerTransparent: true,
+          headerShown: false,
+      }} /> 
+      <Stack.Screen 
+        name="PontosTrocados" 
+        component={PontosTrocados}
         options={{
           title: '',
           headerTransparent: true,
