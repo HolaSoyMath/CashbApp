@@ -1,15 +1,17 @@
 import { StyleSheet } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
-import Perfil from './screens/perfil'
-import Historico from './screens/historico'
-import Login from './screens/login'
-import AlterarSenha from './screens/alterarSenha'
-import Home from './screens/home'
-import ScannerScreen from './screens/scannerScreen'
-import Beneficios from './screens/beneficios'
-import BeneficioPix from './screens/beneficioPix'
-import VendaRegistrada from './screens/vendaRegistrada'
+import Perfil from './projeto/frontend/screens/perfil'
+import Historico from './projeto/frontend/screens/historico'
+import Login from './projeto/frontend/screens/login'
+import AlterarSenha from './projeto/frontend/screens/alterarSenha'
+import Home from './projeto/frontend/screens/home'
+import ScannerScreen from './projeto/frontend/screens/scannerScreen'
+import Beneficios from './projeto/frontend/screens/beneficios'
+import BeneficioPix from './projeto/frontend/screens/beneficioPix'
+import VendaRegistrada from './projeto/frontend/screens/vendaRegistrada'
+import BeneficioInfo from './projeto/frontend/screens/beneficioInfo'
+import PontosTrocados from './projeto/frontend/screens/pontosTrocados'
 
 
 const Stack = createStackNavigator();
@@ -44,6 +46,22 @@ function MyStack() {
       <Stack.Screen 
         name="Beneficios" 
         component={Beneficios}
+        options={{
+          title: '',
+          headerTransparent: true,
+          headerShown: false,
+      }} /> 
+      <Stack.Screen 
+        name="BeneficioInfo" 
+        component={BeneficioInfo}
+        options={{
+          title: '',
+          headerTransparent: true,
+          headerShown: false,
+      }} /> 
+      <Stack.Screen 
+        name="PontosTrocados" 
+        component={PontosTrocados}
         options={{
           title: '',
           headerTransparent: true,

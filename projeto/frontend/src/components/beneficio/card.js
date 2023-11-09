@@ -1,16 +1,16 @@
 import React from 'react'
-import {View, Text, StyleSheet, Image} from 'react-native'  
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'  
 
 
-export default function Card({cupom, texto, pontos}) {
+export default function Card({cupom, texto, pontos, telaBen}) {
    return(
-    <View style={[stylesBody.containerBeneficio]}>
+    <TouchableOpacity style={[stylesBody.containerBeneficio]} onPress={telaBen}>
       <View style={[stylesBody.containerImg, stylesPrincipal.centralizar]}>
         <Image source={cupom} />
       </View>
       <Text style={[stylesBody.texto]}>{texto}</Text>
       <Text style={[stylesBody.texto]}>{pontos} pontos</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 
