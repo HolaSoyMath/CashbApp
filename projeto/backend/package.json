@@ -1,26 +1,27 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "API for soamer's app ",
-  "main": "app.js",
+  "description": "",
+  "main": "index.js",
+  "engines": {"node": "18"},
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx src/server.ts",
+    "build": "tsup src",
+    "start": "node dist/server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DaviPaluch/app-cashback-soamer.git"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.8.10",
+    "prisma": "^5.5.2",
+    "tsup": "^7.2.0",
+    "tsx": "^3.14.0",
+    "typescript": "^5.2.2"
   },
-  "author": "Davi Paluch",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/DaviPaluch/app-cashback-soamer/issues"
-  },
-  "homepage": "https://github.com/DaviPaluch/app-cashback-soamer#readme",
   "dependencies": {
-    "body-parser": "^1.20.2",
-    "express": "^4.18.2",
-    "mysql": "^2.18.1",
-    "nodemon": "^3.0.1"
+    "@prisma/client": "^5.5.2",
+    "fastify": "^4.24.3",
+    "zod": "^3.22.4"
   }
 }
