@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, StatusBar } from 'react-native'
 import imgSuperior from '../src/images/login/detalheSuperior.png'
 import imgInferior from '../src/images/login/detalheInferior.png'
@@ -9,11 +9,36 @@ import InputLogin from '../src/components/input/inputLogin.js'
 import { useFonts } from 'expo-font';
 import ButtonEntrar from '../src/components/button/buttonEntrar.js'
 
-export default function Login(props){
+export default function Login(props){   
 
-  let [fontsLoaded] = useFonts({
-    'Poppins': require('../src/fonts/poppins/Poppins-Black.ttf'),
-  }); 
+  const [cpf, setCpf] = useState('');
+  const [senha, setSenha] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      console.log(formataCPF(cpf));
+      console.log(senha);
+      const response = await fetch(`http://soamer-api.onreader.com/login?cpf=${formataCPF(cpf)}&password=${senha}`);
+      const data = await response.json();
+
+      // Faça algo com os dados da resposta, como verificar se a autenticação foi bem-sucedida
+      console.log(data);
+
+      // Navegar para a próxima tela se a autenticação for bem-sucedida
+      navigation.navigate('Home');
+
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+    }
+  };
+
+  function formataCPF(cpf){
+    //retira os caracteres indesejados...
+    cpf = cpf.replace(/[^\d]/g, "");
+    
+    //realizar a formatação...
+      return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  }
 
   return(
     <View style={styles.principal}>
@@ -34,19 +59,20 @@ export default function Login(props){
           <Text style={stylesBody.textoSubTitulo}>Aqui cada venda vale cashback</Text>
         </View>
         <View>
-          <InputLogin icone={imgPerfil} texto={'CPF'} teclado="numeric"></InputLogin>
+          <InputLogin icone={imgPerfil} texto={'CPF'} teclado="numeric" value={cpf} onChangeText={(text) => setCpf(text)}/>
         </View>
         <View style={{marginTop: 30}}>
-          <InputLogin icone={imgSenha} texto={'Senha'} senha={true}></InputLogin>
+          <InputLogin icone={imgSenha} texto={'Senha'} senha={true} value={senha} onChangeText={(text) => setSenha(text)}/>
         </View>
         <View style={{marginTop: 50}}>
-          <ButtonEntrar texto='Entrar' props={props} nmTela='AlterarSenha' />
+          <ButtonEntrar texto='Entrar' onPress={handleLogin}/>
         </View>
       </View>
       <Image source={imgInferior} style={stylesBody.imgInferior}/>
     </View>
   )
 }
+
 const corBackground = '#1e1e1e';
 
 const stylesBody = StyleSheet.create({

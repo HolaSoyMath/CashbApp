@@ -2,10 +2,18 @@ import React, {useState} from 'react'
 import { StyleSheet, View, Image, TextInput, TouchableOpacity} from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-export default function TesteLogin({icone, texto, teclado='default', senha=false}){
+export default function TesteLogin({icone, texto, teclado='default', senha=false, value, onChangeText}){
 
-  const [input, setInput] = useState('');
+  // const [input, setInput] = useState('');
   const [hidePass, setHidePass] = useState(true);
+
+  function formataCPF(cpf){
+    //retira os caracteres indesejados...
+    cpf = cpf.replace(/[^\d]/g, "");
+    
+    //realizar a formatação...
+      return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  }
 
   return(
     <View style={stylesLogin.principal}>
@@ -15,9 +23,10 @@ export default function TesteLogin({icone, texto, teclado='default', senha=false
       placeholder={texto} 
       placeholderTextColor={'#fff'} 
       keyboardType={teclado} 
-      value={input} 
-      onChangeText={(texto) => setInput(texto)} 
-      secureTextEntry={senha ? hidePass : false}/>
+      value={formataCPF(value)}
+      onChangeText={onChangeText} 
+      secureTextEntry={senha ? hidePass : false}
+      />
       {senha == true && <TouchableOpacity onPress={() => setHidePass(!hidePass)}>
         <Ionicons name='eye' color='#fff' size={25} marginRight={10}/>
       </TouchableOpacity>}
