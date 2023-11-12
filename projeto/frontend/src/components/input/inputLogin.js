@@ -23,7 +23,7 @@ export default function TesteLogin({icone, texto, teclado='default', senha=false
       placeholder={texto} 
       placeholderTextColor={'#fff'} 
       keyboardType={teclado} 
-      value={formataCPF(value)}
+      value={senha ? value : formataCPF(value)}
       onChangeText={onChangeText} 
       secureTextEntry={senha ? hidePass : false}
       />

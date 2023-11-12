@@ -38,7 +38,7 @@ export default (app: FastifyInstance, prisma: PrismaClient) => {
                     cuid:cuid
                 },
                 data:{
-                    password:newPassword
+                    password:newPassword,
                 }
             })
 

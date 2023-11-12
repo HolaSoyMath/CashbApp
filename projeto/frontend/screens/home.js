@@ -21,13 +21,13 @@ export default function PagInicial(props) {
                       <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} 
                       onPress={() => props.navigation.navigate("Perfil")}>
                         <Image style={styles.img} source={require("../assets/foto-perfil.png")} />
-                        <Text style={{ color: "#f6f6f6", fontSize: 16, fontWeight: "500", marginLeft: 15 }}>Matheus Guimarães</Text>
+                        <Text style={{ color: "#f6f6f6", fontSize: 16, fontWeight: "500", marginLeft: 15 }}>{}</Text>
                       </TouchableOpacity>
                     </View>
                     <View style={styles.containerPontos}>
                       <View style={styles.pontos}>
                           <Text style={styles.labelPonto}>Seus pontos</Text>
-                          <Text style={styles.points}>$ 100.00</Text>
+                          <Text style={styles.points}>${}</Text>
                       </View>
                       <View style={[styles.pontos, {marginRight: 50}]}>
                           <Text style={styles.labelPonto}>Validade</Text>

@@ -12,23 +12,26 @@ export default function ButtonSair() {
 }
 
 const styles = StyleSheet.create({
-    containerButton:{
-        marginTop: 10,
-      },
-      button: {
-        width: 100,
-        height: 45,
-        backgroundColor: "#FEE2E2",
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        marginRight: 20
-      },
-      textButton:{
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: "#CF6868",
-        fontWeight: 'bold',
-        fontSize: 20,
-      },
+  containerButton:{
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  button: {
+    width: 200,
+    height: 45,
+    backgroundColor: "#FEE2E2",
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginRight: 20
+  },
+  textButton:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: "#CF6868",
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
 })

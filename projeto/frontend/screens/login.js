@@ -8,25 +8,33 @@ import imgSenha from '../src/images/login/senha.png'
 import InputLogin from '../src/components/input/inputLogin.js'
 import { useFonts } from 'expo-font';
 import ButtonEntrar from '../src/components/button/buttonEntrar.js'
+import Globais from '../src/globais'
 
 export default function Login(props){   
 
   const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
+  const [credencial, setCredencial] = useState(true);
 
   const handleLogin = async () => {
     try {
-      console.log(formataCPF(cpf));
-      console.log(senha);
-      const response = await fetch(`http://soamer-api.onreader.com/login?cpf=${formataCPF(cpf)}&password=${senha}`);
-      const data = await response.json();
-
-      // Faça algo com os dados da resposta, como verificar se a autenticação foi bem-sucedida
-      console.log(data);
-
-      // Navegar para a próxima tela se a autenticação for bem-sucedida
-      navigation.navigate('Home');
-
+      const response = await fetch(`https://soamer-api.onrender.com/login?cpf=${formataCPF(cpf)}&password=${senha}`); // requisição de Login
+      const responseData = await response.text();  // Receber a resposta em texto
+      console.log(responseData);
+      if (responseData == "Credenciais inválidas"){ // Verificar se a resposta é de Credencial Inválida
+        setCredencial(false); // Setar crendencial como falsa para aparecer o texto de "CPF/Senha inválidos"
+      }
+      else{
+        setCredencial(true); // Setar crendencial como Verdadeira para NÃO aparecer o texto de "CPF/Senha inválidos"
+        const data = JSON.parse(responseData); //Transformar o texto em JSON
+        Globais.id = data.cuid; // Setar o ID Global com a resposta do CUID
+        if (data.isNewUser = true) { // Verificar se é um novo usuário
+          props.navigation.navigate('AlterarSenha'); // Encaminhar para a tela de Alterar Senha
+        }
+        else{
+          props.navigation.navigate('Home'); // Encaminhar para a tela de Home
+        }
+      } 
     } catch (error) {
       console.error('Erro na requisição:', error);
     }
@@ -63,6 +71,11 @@ export default function Login(props){
         </View>
         <View style={{marginTop: 30}}>
           <InputLogin icone={imgSenha} texto={'Senha'} senha={true} value={senha} onChangeText={(text) => setSenha(text)}/>
+          {!credencial && (
+            <Text style={{ color: 'red', marginTop: 5 }}>
+              CPF/Senha inválidos
+            </Text>
+          )}
         </View>
         <View style={{marginTop: 50}}>
           <ButtonEntrar texto='Entrar' onPress={handleLogin}/>
