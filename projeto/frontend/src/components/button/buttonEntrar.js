@@ -1,11 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native' 
 
-export default function ButtonEntrar({texto, nmTela, props}){
+export default function ButtonEntrar({texto, onPress}){
 
   return(
     <TouchableOpacity 
     style={stylesBody.containerEntrar} 
-    onPress={() => props.navigation.navigate(nmTela)}
+    onPress={onPress}
     >
       <Text style={stylesBody.textoBotao}>{texto}</Text>
     </TouchableOpacity>

@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import MenuBar from '../src/components/menu-bar/index'
 import ButtonSaveAlt from '../src/components/button/buttonSalvarAlteracao.js'
 import ButtonSair from '../src/components/button/buttonSair'
@@ -11,15 +12,39 @@ import iconEmail from '../src/images/perfil/email.png'
 import iconSenha from '../src/images/perfil/senha.png'
 import iconEndereco from '../src/images/perfil/endereco.png'
 import iconTelefone from '../src/images/perfil/telefone.png'
-import { NavigationContainer } from '@react-navigation/native'
 
 export default function Perfil(props) {
+
+  const [altInfo, setAltInfo] = useState(false);
+
+  const MinhaTela = () => {
+  useEffect(() => {
+    // Função a ser executada antes do componente ser renderizado
+    minhaFuncao();
+  }, []); // O array vazio como segundo argumento faz com que o efeito seja executado apenas uma vez, equivalente ao componentDidMount
+
+  const minhaFuncao = () => {
+    const nome = props.route.params.userData.data.sellerName
+    console.log('Função executada antes do componente ser renderizado');
+  };}
+
+  const toggleAltInfo = () => {
+    setAltInfo(!altInfo);
+  };
+
+  const handleSaveChanges = () => {
+    // Aqui você pode adicionar a lógica para salvar as alterações nos dados do usuário
+    // por exemplo, fazer uma chamada à API, ou atualizar o estado, etc.
+
+    // Após salvar, voltar para o modo de exibição padrão
+    setAltInfo(false);
+  };
 
   return (
     <View style={styles.principal}>
       <View style={styles.containerHeader}>
         <Image source={detalheTopo} style={styles.image}/> 
-        <Text style={styles.textHeader}>Matheus Guimarães</Text>
+        <Text style={styles.textHeader}>{props.route.params.userData.data.sellerName}</Text>
       </View>
 
       <View style={styles.containerPerfil}>
@@ -30,36 +55,65 @@ export default function Perfil(props) {
 
       <View style={{paddingLeft: 15, paddingRight: 15, marginTop: 80}}>
 
-        <InputPerfil icone={iconPerfil} nome={'Nome Completo'} editar={1}></InputPerfil>
+        <InputPerfil 
+          icone={iconPerfil} 
+          nome={props.route.params.userData.data.sellerName} 
+          editar={1} 
+          onPress={toggleAltInfo}
+          alterarInfo={altInfo}
+        />
 
-        <InputPerfil icone={iconPerfil} nome={'CPF'}></InputPerfil>
+        <InputPerfil 
+          icone={iconPerfil} 
+          nome={props.route.params.userData.data.cpfSeller}
+        />
 
-        <InputPerfil icone={iconEmail} nome={'Email'} editar={1}></InputPerfil>
+        <InputPerfil 
+          icone={iconEmail} 
+          nome={props.route.params.userData.data.user.email} 
+          editar={1} 
+          onPress={toggleAltInfo}
+          alterarInfo={altInfo}
+        />
 
-        <InputPerfil icone={iconTelefone} nome={'Telefone'} editar={1}></InputPerfil>
+        <InputPerfil 
+          icone={iconTelefone} 
+          nome={props.route.params.userData.data.user.cellphone} 
+          editar={1} 
+          onPress={toggleAltInfo}
+          alterarInfo={altInfo}
+        />
 
-        <InputPerfil icone={iconSenha} nome={'Senha'} editar={1}></InputPerfil>
+        <InputPerfil 
+          icone={iconSenha} 
+          nome={props.route.params.userData.data.user.password} 
+          editar={1} 
+          onPress={toggleAltInfo}
+          alterarInfo={altInfo}
+        />
 
-        <InputPerfil icone={iconEndereco} nome={'CNPJ'}></InputPerfil>
+        <InputPerfil 
+          icone={iconEndereco} 
+          nome={props.route.params.userData.data.carDealerShip.cnpj} 
+        />
 
         <View>
           <View style={[styles.containerInput, {width: "55%"}]}>
             <Image source={iconEndereco} style={[styles.iconEndereco, styles.iconInicio]} />
-            <TextInput style={styles.input} placeholder='Endereço'>
-
-            </TextInput>
+            <TextInput style={styles.input} placeholder='Endereço' />
             <Image source={iconEditar} style={styles.iconEditar} />
             <View style={[styles.containerInput, {width: "71%", marginLeft: 10}]}>
-              <TextInput style={styles.input} placeholder='N°'>
-
-              </TextInput>
+              <TextInput style={styles.input} placeholder='N°' />
               <Image source={iconEditar} style={styles.iconEditar} />
             </View>
           </View>
         </View>
         <View style={stylesButton.container}>
-          <ButtonSaveAlt />
-          <ButtonSair />
+          {altInfo ? (
+            <ButtonSaveAlt onPress={handleSaveChanges} />
+          ) : (
+            <ButtonSair onPress={toggleAltInfo} />
+          )}
         </View>
       </View>
       <MenuBar option = {4} props={props}></MenuBar>

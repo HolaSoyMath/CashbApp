@@ -1,15 +1,21 @@
-import { StyleSheet, View, Image, TextInput } from 'react-native'
+import { StyleSheet, View, Image, TextInput, TouchableOpacity, Text } from 'react-native'
 import iconPerfil from '../../images/perfil/info-pessoal.png'
 import iconEditar from '../../images/perfil/editar.png'
+import { useState } from 'react'
 
-export default function inputPerfil({icone, nome, editar}) {
+export default function inputPerfil({icone, nome, editar, alterarInfo=false, onPress, onChangeText, value}) {
+
+  const [texto, setTexto] = useState(nome);
+
     return (
         <View style={[styles.containerInput]}>
             <Image source={icone} style={styles.iconPerfil} />
-                <TextInput style={styles.input} placeholder={nome} >
-
-                </TextInput>
-            {editar == 1 && <Image source={iconEditar} style={styles.iconEditar} />}
+            {alterarInfo ? 
+            <TextInput style={styles.input} value={texto} onChangeText={(text) => setTexto(text)} /> :
+            <Text style={styles.input}>{nome}</Text> }
+            <TouchableOpacity onPress={onPress}>
+              {editar == 1 && <Image source={iconEditar} style={styles.iconEditar} />}
+            </TouchableOpacity>
         </View>
     );
 }
@@ -42,6 +48,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         width: "80%",
-        color: '#1e1e1e50'
+        color: 'rgba(0,0,0, 0.8)'
     },
 })

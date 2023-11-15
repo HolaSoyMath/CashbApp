@@ -6,8 +6,51 @@ import imgLogo from '../src/images/login/logo.png'
 import imgSenha from '../src/images/login/senha.png'
 import InputLogin from '../src/components/input/inputLogin.js'
 import ButtonEntrar from '../src/components/button/buttonEntrar.js'
+import Globais from '../src/globais'
 
 export default function AlterarSenha(props){
+
+  const [senha, setSenha] = useState('');
+  const [confSenha, setConfSenha] = useState('');
+  const [senhasCoincidem, setSenhasCoincidem] = useState(true);
+  const [tamanhoSenha, setTamanhoSenha] = useState(true);
+
+  const objetoJSON = {
+    "cuid": Globais.id,
+    "newPassword": senha,
+  };
+
+  const novaSenha = async () => {
+    try {
+      if (senha == confSenha) {
+        if (senha.length >= 4){
+          setTamanhoSenha(true);
+          setSenhasCoincidem(true);
+          // Enviar o JSON para o servidor
+          fetch('http://soamer-api.onrender.com/change-password', {
+            method: 'PUT',
+            body: JSON.stringify({
+              cuid: Globais.id,
+              newPassword: senha,
+            }),
+            headers: {
+              'Content-type': 'application/json; charset=UTF-8',
+            },
+          });
+          // Senhas coincidem, redirecionar para a tela 'Home'
+          props.navigation.navigate('Home');
+        }
+        else {
+          setTamanhoSenha(false);
+        }
+      } else {
+        // Senhas não coincidem, exibir mensagem de erro e desabilitar o botão
+        setSenhasCoincidem(false);
+      };
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+    }
+  };
 
   return(
     <View style={styles.principal}>
@@ -29,9 +72,11 @@ export default function AlterarSenha(props){
         </View>
         <View>
           <InputLogin 
-          icone={imgSenha} 
-          texto={'Senha'} 
-          senha={true} 
+            icone={imgSenha} 
+            texto={'Senha'} 
+            senha={true} 
+            value={senha} 
+            onChangeText={(text) => setSenha(text)}
           />
         </View>
         <View style={{marginTop: 30}}>
@@ -39,10 +84,25 @@ export default function AlterarSenha(props){
             icone={imgSenha} 
             texto={'Confirme sua senha'} 
             senha={true}
+            value={confSenha} 
+            onChangeText={(text) => {
+              setConfSenha(text);
+              setSenhasCoincidem(true);
+            }}
           />
+          {!senhasCoincidem && (
+            <Text style={{ color: 'red', marginTop: 5 }}>
+              As senhas não coincidem
+            </Text>
+          )}
+          {!tamanhoSenha && (
+            <Text style={{ color: 'red', marginTop: 5 }}>
+              A senha deve conter 4 caracteres ou mais
+            </Text>
+          )}
         </View>
         <View style={{marginTop: 50}}>
-          <ButtonEntrar texto='Confirmar' props={props} nmTela='Home' />
+          <ButtonEntrar texto='Confirmar' onPress={novaSenha} />
         </View>
       </View>
       <Image source={imgInferior} style={stylesBody.imgInferior}/>

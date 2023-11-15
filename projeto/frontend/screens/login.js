@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, StatusBar } from 'react-native'
 import imgSuperior from '../src/images/login/detalheSuperior.png'
 import imgInferior from '../src/images/login/detalheInferior.png'
@@ -8,12 +8,45 @@ import imgSenha from '../src/images/login/senha.png'
 import InputLogin from '../src/components/input/inputLogin.js'
 import { useFonts } from 'expo-font';
 import ButtonEntrar from '../src/components/button/buttonEntrar.js'
+import Globais from '../src/globais'
 
-export default function Login(props){
+export default function Login(props){   
 
-  let [fontsLoaded] = useFonts({
-    'Poppins': require('../src/fonts/poppins/Poppins-Black.ttf'),
-  }); 
+  const [cpf, setCpf] = useState('');
+  const [senha, setSenha] = useState('');
+  const [credencial, setCredencial] = useState(true);
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`https://soamer-api.onrender.com/login?cpf=${formataCPF(cpf)}&password=${senha}`); // requisição de Login
+      const responseData = await response.text();  // Receber a resposta em texto
+      console.log(responseData);
+      if (responseData == "Credenciais inválidas"){ // Verificar se a resposta é de Credencial Inválida
+        setCredencial(false); // Setar crendencial como falsa para aparecer o texto de "CPF/Senha inválidos"
+      }
+      else{
+        setCredencial(true); // Setar crendencial como Verdadeira para NÃO aparecer o texto de "CPF/Senha inválidos"
+        const data = JSON.parse(responseData); //Transformar o texto em JSON
+        Globais.id = data.cuid; // Setar o ID Global com a resposta do CUID
+        if (data.isNewUser = true) { // Verificar se é um novo usuário
+          props.navigation.navigate('AlterarSenha'); // Encaminhar para a tela de Alterar Senha
+        }
+        else{
+          props.navigation.navigate('Home'); // Encaminhar para a tela de Home
+        }
+      } 
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+    }
+  };
+
+  function formataCPF(cpf){
+    //retira os caracteres indesejados...
+    cpf = cpf.replace(/[^\d]/g, "");
+    
+    //realizar a formatação...
+      return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  }
 
   return(
     <View style={styles.principal}>
@@ -34,19 +67,25 @@ export default function Login(props){
           <Text style={stylesBody.textoSubTitulo}>Aqui cada venda vale cashback</Text>
         </View>
         <View>
-          <InputLogin icone={imgPerfil} texto={'CPF'} teclado="numeric"></InputLogin>
+          <InputLogin icone={imgPerfil} texto={'CPF'} teclado="numeric" value={cpf} onChangeText={(text) => setCpf(text)}/>
         </View>
         <View style={{marginTop: 30}}>
-          <InputLogin icone={imgSenha} texto={'Senha'} senha={true}></InputLogin>
+          <InputLogin icone={imgSenha} texto={'Senha'} senha={true} value={senha} onChangeText={(text) => setSenha(text)}/>
+          {!credencial && (
+            <Text style={{ color: 'red', marginTop: 5 }}>
+              CPF/Senha inválidos
+            </Text>
+          )}
         </View>
         <View style={{marginTop: 50}}>
-          <ButtonEntrar texto='Entrar' props={props} nmTela='AlterarSenha' />
+          <ButtonEntrar texto='Entrar' onPress={handleLogin}/>
         </View>
       </View>
       <Image source={imgInferior} style={stylesBody.imgInferior}/>
     </View>
   )
 }
+
 const corBackground = '#1e1e1e';
 
 const stylesBody = StyleSheet.create({
