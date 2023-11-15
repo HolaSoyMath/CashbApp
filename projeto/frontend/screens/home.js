@@ -22,7 +22,6 @@ export default function PagInicial(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        Globais.id = "2c584a89-4bef-46cf-b99c-a317f0c2b6af";
         // Faça a sua requisição à API aqui
         let response = await fetch(
           `https://soamer-api.onrender.com/home/pontos-validade?cuid=${Globais.id}`
@@ -51,7 +50,7 @@ export default function PagInicial(props) {
                 <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} 
                 onPress={() => props.navigation.navigate("Perfil")}>
                   <Image style={styles.img} source={require("../assets/foto-perfil.png")} />
-                  <Text style={{ color: "#f6f6f6", fontSize: 16, fontWeight: "500", marginLeft: 15 }}>{nome}</Text>
+                  <Text style={{ color: "#f6f6f6", fontSize: 24, fontWeight: "500", marginLeft: 15 }}>{nome}</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.containerPontos}>
@@ -61,7 +60,7 @@ export default function PagInicial(props) {
                 </View>
                 <View style={[styles.pontos, {marginRight: 50}]}>
                     <Text style={styles.labelPonto}>Validade</Text>
-                    <Text style={styles.points}>3 m 2 d</Text>
+                    <Text style={styles.points}>2 m 2 d</Text>
                 </View>
               </View>
               <View>
@@ -103,23 +102,15 @@ export default function PagInicial(props) {
             
               <View style={styles.labelCampanha}>
                   <LabelComponent title="Campanhas" />
-                  <LinkComponent />
+                  {/* <LinkComponent /> */}
               </View>
           </View>
-          <ScrollView 
-                horizontal={true} 
-                showsHorizontalScrollIndicator={false}
-                style={styles.scrollView}
-              >
-              <Card style={styles.cardStyle}>
-                  <TextCard title="Ganhe +2 pontos" paragraph="Na venda de uma ponteira bocal duplo polida."/>
-                  <ButtonCard onPress={() => setModal(true)}/>
-              </Card>
-              <Card style={styles.cardStyle}>
-                  <TextCard title="Ganhe +3 pontos" paragraph="Na venda de uma ponteira bocal duplo black piano."/>
-                  <ButtonCard onPress={() => setModal(true)}/>
-              </Card>
-          </ScrollView>
+          <View style={styles.containerCampanha}>
+            <Card style={styles.cardStyle}>
+                <TextCard title="Ganhe +2 pontos" paragraph="Na venda de uma ponteira bocal duplo polida."/>
+                <ButtonCard onPress={() => setModal(true)}/>
+            </Card>
+          </View>
 
           <MenuBar option={1} props={props} style/>
 
@@ -229,12 +220,13 @@ const styles = StyleSheet.create({
       paddingTop: 40,
     },
 
-    scrollView: {
+    containerCampanha: {
         flex: 1,
         flexDirection: 'row',
         height: 290,
-        marginStart: 30,
+        marginLeft: 30,
         marginTop: 30,
+        marginRight: 20,
     },
 
     cardStyle:{
@@ -247,5 +239,4 @@ const styles = StyleSheet.create({
       marginTop: 25
     },
   
-    
 })

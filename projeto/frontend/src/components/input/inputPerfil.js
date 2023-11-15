@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     containerInput: {
         flex: 0,
         flexDirection: 'row',
-        height: 60,
+        height: 60, 
         width: "100%",
         justifyContent: 'flex-start',
         alignItems: 'center',

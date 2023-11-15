@@ -1,16 +1,41 @@
+import React, { useState } from 'react'
+import {View, Text, StyleSheet,TextInput, TouchableOpacity} from 'react-native'  
+import { AntDesign } from '@expo/vector-icons';
+import Globais from '../src/globais';
 
-import React from 'react'
-import {Pressable, 
-  View, 
-  Text,
-  StyleSheet,
-  TextInput, 
-  onPress,
-  TouchableOpacity} from 'react-native'  
-  import { AntDesign } from '@expo/vector-icons';
 
 
 export default function BeneficioPix(props) {
+
+  const [valor, setValor] = useState();
+
+  const solicitarTroca = async () => {
+    try {
+      // Faça a sua requisição à API aqui
+      response = await fetch('https://soamer-api.onrender.com/trocar-pontos', {
+            method: 'PUT',
+            body: JSON.stringify({
+              cuid: Globais.id,
+              trocarPontos: valor,
+            }),
+            headers: {
+              'Content-type': 'application/json; charset=UTF-8',
+            },
+          });
+      console.log(response);
+
+      // Se der certo a alteração, encaminhar para a tela de "Pontos Trocados"
+      // Caso não de, encaminhar para a tela de "Pontos Insuficientes"
+
+      // const responseData = await response.text();
+      // const data = JSON.parse(responseData);
+      // setPontos(data.points[0].points);
+
+    } catch (error) {
+      console.error('Erro na Requisição:', error);
+    }
+  };
+
    return(
     <View style={styles.container}>
       
@@ -27,12 +52,18 @@ export default function BeneficioPix(props) {
         <Text style={styles.subtitulo}>Digite o valor que deseja resgatar </Text>
         <View style={styles.inputpix}>
           <Text style={styles.sifra}>$</Text>
-          <TextInput style={styles.valor} placeholder='100' placeholderTextColor='rgba(242, 242, 242, 0.29)' keyboardType='numeric' />
+          <TextInput 
+            style={styles.valor} 
+            placeholder='100' 
+            placeholderTextColor='rgba(242, 242, 242, 0.29)' 
+            keyboardType='numeric' 
+            onChangeText={(vlr) => setValor(vlr)} 
+            value={valor}/>
         </View>
         
-        <View>
+        <View style={{width: '100%', marginTop: 70, alignItems: 'center'}}>
           <TouchableOpacity style={styles.btnfinalizar}
-            onPress={this._onPressButton}>
+            onPress={solicitarTroca}>
               <Text style={{color:'white', fontSize: 20, fontWeight: 'bold'}}> Finalizar </Text>
             </TouchableOpacity>
         </View>    
@@ -102,17 +133,16 @@ const styles = StyleSheet.create({
   },
   //botao para finalizar
   btnfinalizar:{
-    marginLeft:100,
+    // marginLeft:100,
     width: 200,
     height: 60,
     padding:10,
-    marginTop:70,
+    // marginTop:70,
     fontSize:30,
     alignItems:'center',
     justifyContent: 'center',
     color:'white',
     borderColor:"#2A59C2",
-    borderWidth:5,
     borderCurve:'continuous',
     borderRadius:15,
     backgroundColor:"#2A59C2",

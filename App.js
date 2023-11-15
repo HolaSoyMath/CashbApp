@@ -34,7 +34,7 @@ function MyStack() {
           title: '',
           headerTransparent: true,
           headerShown: false,
-      }} /> */}
+      }} />
       <Stack.Screen
         name="Home" 
         component={Home}
@@ -42,7 +42,7 @@ function MyStack() {
           title: '',
           headerTransparent: true,
           headerShown: false,
-      }} />
+      }} /> */}
       <Stack.Screen 
         name="Beneficios" 
         component={Beneficios}

@@ -8,10 +8,7 @@ import VendaOK from '../src/images/vendaRegistrada/verificar.png'
 
 
 export default function PontosTrocados(props){
-
-  let [fontsLoaded] = useFonts({
-    'Poppins': require('../src/fonts/poppins/Poppins-Black.ttf'),
-  }); 
+ 
 
   return(
     <View style={styles.principal}>
@@ -35,8 +32,8 @@ export default function PontosTrocados(props){
       <View style={stylesBody.principal}>
         <View style={stylesBody.containerTitulo}> 
           <Image source={VendaOK} style={styles.imagem}/>
-          <Text style={stylesBody.textoTitulo}>Pontos Trocados</Text>
-          <Text style={stylesBody.textoSubTitulo}>Seus pontos foram trocados com sucesso. Aproveite seu beneficio!</Text>
+          <Text style={stylesBody.textoTitulo}>Solicitação enviada</Text>
+          <Text style={stylesBody.textoSubTitulo}>Sua solicitação de troca foi enviada.</Text>
         </View>
       </View>
       <Image source={imgInferior} style={stylesBody.imgInferior}/>

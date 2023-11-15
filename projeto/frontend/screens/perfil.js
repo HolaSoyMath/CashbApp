@@ -12,7 +12,8 @@ import iconEmail from '../src/images/perfil/email.png'
 import iconSenha from '../src/images/perfil/senha.png'
 import iconEndereco from '../src/images/perfil/endereco.png'
 import iconTelefone from '../src/images/perfil/telefone.png'
-import Globais from '../src/globais';
+import Globais from '../src/globais'
+import { MultiSelect } from 'react-native-element-dropdown'
 
 export default function Perfil(props) {
 
@@ -26,11 +27,32 @@ export default function Perfil(props) {
   const [enderecoSeller, setEnderecoSeller] = useState();
   const [numEnderecoSeller, setNumEnderecoSeller] = useState();
 
+  const marcasIniciais = Globais.marcas;
+
+  const [selected, setSelected] = useState(marcasIniciais);
+  const marcas = [
+    { label: 'BMW', value: 1 },
+    { label: 'CHERY', value: 2 },
+    { label: 'CITROEN', value: 3 },
+    { label: 'FIAT', value: 4 },
+    { label: 'FORD', value: 5 },
+    { label: 'GM', value: 6 },
+    { label: 'HONDA', value: 7 },
+    { label: 'HYUNDAI', value: 8 },
+    { label: 'JEEP', value: 9 },
+    { label: 'NISSAN', value: 10 },
+    { label: 'PEUGEOT', value: 11 },
+    { label: 'RAM', value: 12 },
+    { label: 'TOYOTA', value: 13 },
+    { label: 'VOLKSWAGEN', value: 14 },
+  ];
+
+  console.log(selected);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        Globais.id = "2c584a89-4bef-46cf-b99c-a317f0c2b6af";
         const response = await fetch(`https://soamer-api.onrender.com/seller-info?cuid=${Globais.id}`); // requisição de retorno dos dados de perfil
         const responseData = await response.text();  // Receber a resposta em texto
         const data = JSON.parse(responseData); //Transformar o texto em JSON
@@ -130,13 +152,32 @@ export default function Perfil(props) {
               </View>
             </View>
           </View>
+          <MultiSelect
+            style={stylesDropdown.dropdown}
+            placeholderStyle={stylesDropdown.placeholderStyle}
+            selectedTextStyle={stylesDropdown.selectedTextStyle}
+            inputSearchStyle={stylesDropdown.inputSearchStyle}
+            iconStyle={stylesDropdown.iconStyle}
+            search={true}
+            data={marcas}
+            labelField="label"
+            valueField="value"
+            placeholder="Selecionar Marcas"
+            searchPlaceholder="Pesquisar"
+            value={selected}
+            onChange={item => {
+              setSelected(item);
+            }}
+            selectedStyle={styles.selectedStyle}
+          />
         </View>
+
       </ScrollView>
       <View style={stylesButton.container}>
         {altInfo ? (
           <ButtonSaveAlt onPress={handleSaveChanges} />
         ) : (
-          <ButtonSair onPress={toggleAltInfo} />
+          <ButtonSair onPress={props.navigation.navigate("Login")} />
         )}
       </View>
       <MenuBar option = {4} props={props}></MenuBar>
@@ -233,10 +274,40 @@ const styles = StyleSheet.create({
   iconEditar: {
     width: 14,
     height: 14,
-  },
+  }
 });
 
 
+const stylesDropdown = StyleSheet.create({
+  container: { padding: 16,
+  },
+    dropdown: {
+      height: 50,
+      backgroundColor: 'transparent',
+      borderBottomColor: 'gray',
+      borderBottomWidth: 0.5,
+    },
+    placeholderStyle: {
+      fontSize: 16,
+    },
+    selectedTextStyle: {
+      fontSize: 14,
+    },
+    iconStyle: {
+      width: 20,
+      height: 20,
+    },
+    inputSearchStyle: {
+      height: 40,
+      fontSize: 16,
+    },
+    icon: {
+      marginRight: 5,
+    },
+    selectedStyle: {
+      borderRadius: 12,
+    },
+});
 
 
 const styles2 = StyleSheet.create({
