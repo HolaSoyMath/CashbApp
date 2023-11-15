@@ -5,7 +5,7 @@ import imgInferior from '../src/images/login/detalheInferior.png'
 import imgLogo from '../src/images/login/logo.png'
 import imgSenha from '../src/images/login/senha.png'
 import InputLogin from '../src/components/input/inputLogin.js'
-import ButtonEntrar from '../src/components/button/buttonEntrar.js'
+import ButtonNovaSenha from '../src/components/button/buttonConfirmarNovaSenha.js'
 import Globais from '../src/globais'
 
 export default function AlterarSenha(props){
@@ -102,7 +102,7 @@ export default function AlterarSenha(props){
           )}
         </View>
         <View style={{marginTop: 50}}>
-          <ButtonEntrar texto='Confirmar' onPress={novaSenha} />
+          <ButtonNovaSenha texto='Confirmar' onPress={novaSenha} />
         </View>
       </View>
       <Image source={imgInferior} style={stylesBody.imgInferior}/>

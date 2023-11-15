@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView } from "react-native";
-import React, { useState } from 'react'
+import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import React, { useEffect, useState } from 'react'
 import { Card } from 'react-native-paper'
 import ButtonVenda from "../src/components/button/buttonVenda"
 import ButtonCard from "../src/components/button/buttonCard"
@@ -9,95 +9,125 @@ import TitleComponent from "../src/components/text/titleHis"
 import { Divider } from "react-native-paper"
 import Modal from '../src/components/text/modalCamp'
 import TextCard from '../src/components/text/cardText'
-import MenuBar from "../src/components/menu-bar";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import MenuBar from "../src/components/menu-bar"
+import { TouchableOpacity } from "react-native-gesture-handler"
+import Globais from "../src/globais"
 
 export default function PagInicial(props) {
- const [modal, setModal] = useState(false)
+
+  const [pontos, setPontos] = useState(0);
+  const [nome, setNome] = useState();
+  const [modal, setModal] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        Globais.id = "2c584a89-4bef-46cf-b99c-a317f0c2b6af";
+        // Faça a sua requisição à API aqui
+        let response = await fetch(
+          `https://soamer-api.onrender.com/home/pontos-validade?cuid=${Globais.id}`
+        );
+        let responseData = await response.text();
+        let data = JSON.parse(responseData);
+        setPontos(data.points[0].points);
+        
+        response = await fetch(`https://soamer-api.onrender.com/seller-info?cuid=${Globais.id}`); // requisição de retorno dos dados de perfil
+        responseData = await response.text();  // Receber a resposta em texto
+        data = JSON.parse(responseData); //Transformar o texto em JSON
+        setNome(data.sellerName)
+
+      } catch (error) {
+        console.error('Erro na Requisição:', error);
+      }
+    };
+
+    fetchData(); // Chame a função ao montar o componente
+    }, []); // O segundo argumento vazio [] indica que isso só deve ser executado uma vez, equivalente a componentDidMount
+
     return (
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <View style={styles.perfil}>
-                      <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} 
-                      onPress={() => props.navigation.navigate("Perfil")}>
-                        <Image style={styles.img} source={require("../assets/foto-perfil.png")} />
-                        <Text style={{ color: "#f6f6f6", fontSize: 16, fontWeight: "500", marginLeft: 15 }}>{}</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.containerPontos}>
-                      <View style={styles.pontos}>
-                          <Text style={styles.labelPonto}>Seus pontos</Text>
-                          <Text style={styles.points}>${}</Text>
-                      </View>
-                      <View style={[styles.pontos, {marginRight: 50}]}>
-                          <Text style={styles.labelPonto}>Validade</Text>
-                          <Text style={styles.points}>3 m 2 d</Text>
-                      </View>
-                    </View>
-                    <View>
-                        <ButtonVenda onPress={() => props.navigation.navigate("ScannerScreen")}/>
-                    </View>
+      <View style={styles.container}>
+          <View style={styles.header}>
+              <View style={styles.perfil}>
+                <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} 
+                onPress={() => props.navigation.navigate("Perfil")}>
+                  <Image style={styles.img} source={require("../assets/foto-perfil.png")} />
+                  <Text style={{ color: "#f6f6f6", fontSize: 16, fontWeight: "500", marginLeft: 15 }}>{nome}</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.containerPontos}>
+                <View style={styles.pontos}>
+                    <Text style={styles.labelPonto}>Seus pontos</Text>
+                    <Text style={styles.points}>${pontos}</Text>
                 </View>
-                <View style={styles.main}>
-                    <View style={styles.labelHistorico}>
-                        <LabelComponent title="Histórico" />
-                        <LinkComponent mudarTela={() => props.navigation.navigate("Historico")} />
-                    </View>
-                    <View style={styles.historico}>
-                        <View style={styles.imgHistorico}>
-                            <Image style={styles.img2} source={require("../assets/imgHistorico.png")} />
-                        </View>
-                        <View style={styles.infHist}>
-                            <View style={styles.columnWrapper}>
-                                <TitleComponent title="Dupla Polida" />
-                                <Text style={{ color: "#696969", fontSize: 12  }}>Toyota Corolla Cross</Text>
-                            </View>
-                            <Text style={{ fontWeight: "600", fontSize: 13 }}>$ 10</Text>
-                        </View>
-                    </View>
-                    <Divider style={{ marginTop: 10, height: 0.6 }}></Divider>
-
-                    <View style={styles.historico}>
-                        <View style={styles.imgHistorico}>
-                            <Image style={styles.img2} source={require("../assets/imgHistorico.png")} />
-                        </View>
-                        <View style={styles.infHist}>
-                            <View style={styles.columnWrapper}>
-                                <TitleComponent title="Único Polida" />
-                                <Text style={{ color: "#696969", fontSize: 12 }}>Chevrolet Tracker 1.2</Text>
-                            </View>
-                            <Text style={{ fontWeight: "600", fontSize: 13}}>$ 10</Text>
-                        </View>
-                    </View>
-                    <Divider style={{ marginTop: 10, height: 0.6 }}></Divider>
-                  
-                    <View style={styles.labelCampanha}>
-                        <LabelComponent title="Campanhas" />
-                        <LinkComponent />
-                    </View>
+                <View style={[styles.pontos, {marginRight: 50}]}>
+                    <Text style={styles.labelPonto}>Validade</Text>
+                    <Text style={styles.points}>3 m 2 d</Text>
                 </View>
-                <ScrollView 
-                      horizontal={true} 
-                      showsHorizontalScrollIndicator={false}
-                      style={styles.scrollView}
-                    >
-                    <Card style={styles.cardStyle}>
-                        <TextCard title="Ganhe +2 pontos" paragraph="Na venda de uma ponteira bocal duplo polida."/>
-                        <ButtonCard onPress={() => setModal(true)}/>
-                    </Card>
-                    <Card style={styles.cardStyle}>
-                        <TextCard title="Ganhe +3 pontos" paragraph="Na venda de uma ponteira bocal duplo black piano."/>
-                        <ButtonCard onPress={() => setModal(true)}/>
-                    </Card>
-                </ScrollView>
-
-                <MenuBar option={1} props={props} style/>
-
-                <Modal 
-                  show={modal}
-                  close={() => setModal(false)}
-                />
+              </View>
+              <View>
+                  <ButtonVenda onPress={() => props.navigation.navigate("ScannerScreen")}/>
+              </View>
           </View>
+          <View style={styles.main}>
+              <View style={styles.labelHistorico}>
+                  <LabelComponent title="Histórico" />
+                  <LinkComponent mudarTela={() => props.navigation.navigate("Historico")} />
+              </View>
+              <View style={styles.historico}>
+                  <View style={styles.imgHistorico}>
+                      <Image style={styles.img2} source={require("../assets/imgHistorico.png")} />
+                  </View>
+                  <View style={styles.infHist}>
+                      <View style={styles.columnWrapper}>
+                          <TitleComponent title="Dupla Polida" />
+                          <Text style={{ color: "#696969", fontSize: 12  }}>Toyota Corolla Cross</Text>
+                      </View>
+                      <Text style={{ fontWeight: "600", fontSize: 13 }}>$ 10</Text>
+                  </View>
+              </View>
+              <Divider style={{ marginTop: 10, height: 0.6 }}></Divider>
+
+              <View style={styles.historico}>
+                  <View style={styles.imgHistorico}>
+                      <Image style={styles.img2} source={require("../assets/imgHistorico.png")} />
+                  </View>
+                  <View style={styles.infHist}>
+                      <View style={styles.columnWrapper}>
+                          <TitleComponent title="Único Polida" />
+                          <Text style={{ color: "#696969", fontSize: 12 }}>Chevrolet Tracker 1.2</Text>
+                      </View>
+                      <Text style={{ fontWeight: "600", fontSize: 13}}>$ 10</Text>
+                  </View>
+              </View>
+              <Divider style={{ marginTop: 10, height: 0.6 }}></Divider>
+            
+              <View style={styles.labelCampanha}>
+                  <LabelComponent title="Campanhas" />
+                  <LinkComponent />
+              </View>
+          </View>
+          <ScrollView 
+                horizontal={true} 
+                showsHorizontalScrollIndicator={false}
+                style={styles.scrollView}
+              >
+              <Card style={styles.cardStyle}>
+                  <TextCard title="Ganhe +2 pontos" paragraph="Na venda de uma ponteira bocal duplo polida."/>
+                  <ButtonCard onPress={() => setModal(true)}/>
+              </Card>
+              <Card style={styles.cardStyle}>
+                  <TextCard title="Ganhe +3 pontos" paragraph="Na venda de uma ponteira bocal duplo black piano."/>
+                  <ButtonCard onPress={() => setModal(true)}/>
+              </Card>
+          </ScrollView>
+
+          <MenuBar option={1} props={props} style/>
+
+          <Modal 
+            show={modal}
+            close={() => setModal(false)}
+          />
+      </View>
     );
 }
 

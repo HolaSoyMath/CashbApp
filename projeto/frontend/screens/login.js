@@ -6,21 +6,21 @@ import imgLogo from '../src/images/login/logo.png'
 import imgPerfil from '../src/images/login/info-pessoal.png'
 import imgSenha from '../src/images/login/senha.png'
 import InputLogin from '../src/components/input/inputLogin.js'
-import { useFonts } from 'expo-font';
 import ButtonEntrar from '../src/components/button/buttonEntrar.js'
 import Globais from '../src/globais'
+import CheckBox from 'react-native-check-box'
 
 export default function Login(props){   
 
   const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
   const [credencial, setCredencial] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleLogin = async () => {
     try {
       const response = await fetch(`https://soamer-api.onrender.com/login?cpf=${formataCPF(cpf)}&password=${senha}`); // requisição de Login
       const responseData = await response.text();  // Receber a resposta em texto
-      console.log(responseData);
       if (responseData == "Credenciais inválidas"){ // Verificar se a resposta é de Credencial Inválida
         setCredencial(false); // Setar crendencial como falsa para aparecer o texto de "CPF/Senha inválidos"
       }
@@ -28,7 +28,7 @@ export default function Login(props){
         setCredencial(true); // Setar crendencial como Verdadeira para NÃO aparecer o texto de "CPF/Senha inválidos"
         const data = JSON.parse(responseData); //Transformar o texto em JSON
         Globais.id = data.cuid; // Setar o ID Global com a resposta do CUID
-        if (data.isNewUser = true) { // Verificar se é um novo usuário
+        if (data.isNewUser == true) { // Verificar se é um novo usuário
           props.navigation.navigate('AlterarSenha'); // Encaminhar para a tela de Alterar Senha
         }
         else{
@@ -77,8 +77,19 @@ export default function Login(props){
             </Text>
           )}
         </View>
+        <View style={stylesBody.containerTermos}>
+          <CheckBox
+            isChecked={isChecked} 
+            onClick={() => setIsChecked(!isChecked)}
+            checkBoxColor='#fff'
+          />
+          <Text style={stylesBody.textoSubTitulo}>Eu li e concordo com os </Text>
+          <TouchableOpacity>
+            <Text style={stylesBody.termosDeUso}>termos de uso</Text>
+          </TouchableOpacity>
+        </View>
         <View style={{marginTop: 50}}>
-          <ButtonEntrar texto='Entrar' onPress={handleLogin}/>
+          <ButtonEntrar texto='Entrar' onPress={handleLogin} check={isChecked}/>
         </View>
       </View>
       <Image source={imgInferior} style={stylesBody.imgInferior}/>
@@ -106,6 +117,17 @@ const stylesBody = StyleSheet.create({
   textoSubTitulo: {
     color: '#fff'
   },
+  containerTermos: {
+    marginTop: 30,
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center'
+  },
+  termosDeUso: {
+    color: '#fff',
+    textDecorationLine: 'underline',
+    fontWeight: 'bold'
+  },
   containerEntrar:{
     width: '100%',
     height: 45,
@@ -114,7 +136,6 @@ const stylesBody = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  
   imgInferior:{
     position:'absolute',
     marginTop: 514,

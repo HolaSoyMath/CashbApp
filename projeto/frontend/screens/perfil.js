@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import MenuBar from '../src/components/menu-bar/index'
 import ButtonSaveAlt from '../src/components/button/buttonSalvarAlteracao.js'
@@ -12,21 +12,43 @@ import iconEmail from '../src/images/perfil/email.png'
 import iconSenha from '../src/images/perfil/senha.png'
 import iconEndereco from '../src/images/perfil/endereco.png'
 import iconTelefone from '../src/images/perfil/telefone.png'
+import Globais from '../src/globais';
 
 export default function Perfil(props) {
 
   const [altInfo, setAltInfo] = useState(false);
+  const [nomeSeller, setNomeSeller] = useState();
+  const [cpfSeller, setCpfSeller] = useState();
+  const [emailSeller, setEmailSeller] = useState();
+  const [cellPhoneSeller, setCellPhoneSeller] = useState();
+  const [senhaSeller, setSenhaSeller] = useState();
+  const [cnpjSeller, setCnpjSeller] = useState();
+  const [enderecoSeller, setEnderecoSeller] = useState();
+  const [numEnderecoSeller, setNumEnderecoSeller] = useState();
 
-  const MinhaTela = () => {
+
   useEffect(() => {
-    // Função a ser executada antes do componente ser renderizado
-    minhaFuncao();
-  }, []); // O array vazio como segundo argumento faz com que o efeito seja executado apenas uma vez, equivalente ao componentDidMount
+    const fetchData = async () => {
+      try {
+        Globais.id = "2c584a89-4bef-46cf-b99c-a317f0c2b6af";
+        const response = await fetch(`https://soamer-api.onrender.com/seller-info?cuid=${Globais.id}`); // requisição de retorno dos dados de perfil
+        const responseData = await response.text();  // Receber a resposta em texto
+        const data = JSON.parse(responseData); //Transformar o texto em JSON
+        setNomeSeller(data.sellerName);
+        setCpfSeller(data.cpfSeller);
+        setEmailSeller(data.user.email);
+        setCellPhoneSeller(data.user.cellphone);
+        setSenhaSeller(data.user.password);
+        setCnpjSeller(data.carDealerShip.cnpj);
+        setEnderecoSeller(data.user.address.logradouro);
+        setNumEnderecoSeller(data.user.address.numero);
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+      }
+    };
 
-  const minhaFuncao = () => {
-    const nome = props.route.params.userData.data.sellerName
-    console.log('Função executada antes do componente ser renderizado');
-  };}
+    fetchData(); // Chame a função ao montar o componente
+    }, []); // O segundo argumento vazio [] indica que isso só deve ser executado uma vez, equivalente a componentDidMount
 
   const toggleAltInfo = () => {
     setAltInfo(!altInfo);
@@ -44,7 +66,7 @@ export default function Perfil(props) {
     <View style={styles.principal}>
       <View style={styles.containerHeader}>
         <Image source={detalheTopo} style={styles.image}/> 
-        <Text style={styles.textHeader}>{props.route.params.userData.data.sellerName}</Text>
+        <Text style={styles.textHeader}>{nomeSeller}</Text>
       </View>
 
       <View style={styles.containerPerfil}>
@@ -52,69 +74,70 @@ export default function Perfil(props) {
           <Image source={foto} style={styles.fotoPerfil} />
         </View>
       </View>
+      <ScrollView>
+        <View style={{paddingLeft: 15, paddingRight: 15, marginTop: 80}}>
 
-      <View style={{paddingLeft: 15, paddingRight: 15, marginTop: 80}}>
+          <InputPerfil 
+            icone={iconPerfil} 
+            nome={nomeSeller} 
+            editar={1} 
+            onPress={toggleAltInfo}
+            alterarInfo={altInfo}
+          />
 
-        <InputPerfil 
-          icone={iconPerfil} 
-          nome={props.route.params.userData.data.sellerName} 
-          editar={1} 
-          onPress={toggleAltInfo}
-          alterarInfo={altInfo}
-        />
+          <InputPerfil 
+            icone={iconPerfil} 
+            nome={cpfSeller}
+          />
 
-        <InputPerfil 
-          icone={iconPerfil} 
-          nome={props.route.params.userData.data.cpfSeller}
-        />
+          <InputPerfil 
+            icone={iconEmail} 
+            nome={emailSeller} 
+            editar={1} 
+            onPress={toggleAltInfo}
+            alterarInfo={altInfo}
+          />
 
-        <InputPerfil 
-          icone={iconEmail} 
-          nome={props.route.params.userData.data.user.email} 
-          editar={1} 
-          onPress={toggleAltInfo}
-          alterarInfo={altInfo}
-        />
+          <InputPerfil 
+            icone={iconTelefone} 
+            nome={cellPhoneSeller} 
+            editar={1} 
+            onPress={toggleAltInfo}
+            alterarInfo={altInfo}
+          />
 
-        <InputPerfil 
-          icone={iconTelefone} 
-          nome={props.route.params.userData.data.user.cellphone} 
-          editar={1} 
-          onPress={toggleAltInfo}
-          alterarInfo={altInfo}
-        />
+          <InputPerfil 
+            icone={iconSenha} 
+            nome={senhaSeller} 
+            editar={1} 
+            onPress={toggleAltInfo}
+            alterarInfo={altInfo}
+          />
 
-        <InputPerfil 
-          icone={iconSenha} 
-          nome={props.route.params.userData.data.user.password} 
-          editar={1} 
-          onPress={toggleAltInfo}
-          alterarInfo={altInfo}
-        />
+          <InputPerfil 
+            icone={iconEndereco} 
+            nome={cnpjSeller} 
+          />
 
-        <InputPerfil 
-          icone={iconEndereco} 
-          nome={props.route.params.userData.data.carDealerShip.cnpj} 
-        />
-
-        <View>
-          <View style={[styles.containerInput, {width: "55%"}]}>
-            <Image source={iconEndereco} style={[styles.iconEndereco, styles.iconInicio]} />
-            <TextInput style={styles.input} placeholder='Endereço' />
-            <Image source={iconEditar} style={styles.iconEditar} />
-            <View style={[styles.containerInput, {width: "71%", marginLeft: 10}]}>
-              <TextInput style={styles.input} placeholder='N°' />
+          <View>
+            <View style={[styles.containerInput, {width: "55%"}]}>
+              <Image source={iconEndereco} style={[styles.iconEndereco, styles.iconInicio]} />
+              <TextInput style={styles.input} value={enderecoSeller} />
               <Image source={iconEditar} style={styles.iconEditar} />
+              <View style={[styles.containerInput, {width: "71%", marginLeft: 10}]}>
+                <TextInput style={styles.input} value={numEnderecoSeller} />
+                <Image source={iconEditar} style={styles.iconEditar} />
+              </View>
             </View>
           </View>
         </View>
-        <View style={stylesButton.container}>
-          {altInfo ? (
-            <ButtonSaveAlt onPress={handleSaveChanges} />
-          ) : (
-            <ButtonSair onPress={toggleAltInfo} />
-          )}
-        </View>
+      </ScrollView>
+      <View style={stylesButton.container}>
+        {altInfo ? (
+          <ButtonSaveAlt onPress={handleSaveChanges} />
+        ) : (
+          <ButtonSair onPress={toggleAltInfo} />
+        )}
       </View>
       <MenuBar option = {4} props={props}></MenuBar>
     </View> 

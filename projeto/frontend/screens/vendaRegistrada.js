@@ -2,16 +2,11 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, StatusBar } from 'react-native'
 import imgSuperior from '../src/images/login/detalheSuperior.png'
 import imgInferior from '../src/images/login/detalheInferior.png'
-import { useFonts } from 'expo-font';
 import { AntDesign } from '@expo/vector-icons';
 import VendaOK from '../src/images/vendaRegistrada/verificar.png'
 
 
 export default function Login(props){
-
-  let [fontsLoaded] = useFonts({
-    'Poppins': require('../src/fonts/poppins/Poppins-Black.ttf'),
-  }); 
 
   return(
     <View style={styles.principal}>
@@ -36,7 +31,7 @@ export default function Login(props){
         <View style={stylesBody.containerTitulo}> 
           <Image source={VendaOK} style={styles.imagem}/>
           <Text style={stylesBody.textoTitulo}>Venda registrada</Text>
-          <Text style={stylesBody.textoSubTitulo}>Parabéns! Sua venda foi aprovada e você acumulou + 10 pontos em seu cashback!</Text>
+          <Text style={stylesBody.textoSubTitulo}>Seu pedido de Cashback foi enviado para avaliação!</Text>
         </View>
       </View>
       <Image source={imgInferior} style={stylesBody.imgInferior}/>

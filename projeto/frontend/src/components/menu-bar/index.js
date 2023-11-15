@@ -9,15 +9,7 @@ import Globais from '../../globais';
 export default function MenuBar({option, props}) {
 
   const pagHome = async () => {
-    try {
-      Globais.id = "2c584a89-4bef-46cf-b99c-a317f0c2b6af";
-      const response = await fetch(`https://soamer-api.onrender.com/home/pontos-validade?cuid=${Globais.id}`);
-      const responseData = await response.text();
-      const data = JSON.parse(responseData);
-      props.navigation.navigate("Home", {userData: {data}})
-    } catch (error) {
-      console.error('Erro na Requisição:', error);
-    }
+    props.navigation.navigate("Home")
   }
 
   const pagBeneficio = () => {
@@ -29,16 +21,8 @@ export default function MenuBar({option, props}) {
   }
 
   const pagPerfil = async () => {
-    try {
-      Globais.id = "2c584a89-4bef-46cf-b99c-a317f0c2b6af";
-      const response = await fetch(`https://soamer-api.onrender.com/seller-info?cuid=${Globais.id}`); // requisição de retorno dos dados de perfil
-      const responseData = await response.text();  // Receber a resposta em texto
-      const data = JSON.parse(responseData); //Transformar o texto em JSON
-      props.navigation.navigate("Perfil", {userData: {data}});
-    } catch (error) {
-      console.error('Erro na requisição:', error);
-    }
-  };
+    props.navigation.navigate("Perfil");
+  }
 
   return (
     <View style={stylesMenuBar.container}>

@@ -1,15 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native' 
 
-export default function ButtonEntrar({texto, onPress, check}){
+export default function ButtonNovaSenha({texto, onPress}){
 
   return(
     <TouchableOpacity 
-      style={[
-        stylesBody.containerEntrar,
-        check ? stylesBody.habilitarEntrar : stylesBody.desabilitarEntrar
-      ]}  
+      style={stylesBody.containerEntrar}  
       onPress={onPress}
-      disabled={!check}
     >
       <Text style={stylesBody.textoBotao}>{texto}</Text>
     </TouchableOpacity>
@@ -22,13 +18,8 @@ const stylesBody = StyleSheet.create({
     height: 45,
     borderRadius: 50,
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  habilitarEntrar:{
+    justifyContent: 'center',
     backgroundColor: '#2A59C2',
-  },
-  desabilitarEntrar:{
-    backgroundColor: '#A3A29E',
   },
   textoBotao:{
     color: '#fff',
