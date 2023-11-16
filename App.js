@@ -12,7 +12,7 @@ import BeneficioPix from './projeto/frontend/screens/beneficioPix'
 import VendaRegistrada from './projeto/frontend/screens/vendaRegistrada'
 import BeneficioInfo from './projeto/frontend/screens/beneficioInfo'
 import PontosTrocados from './projeto/frontend/screens/pontosTrocados'
-
+import Ponteira from './projeto/frontend/screens/ponteira'
 
 const Stack = createStackNavigator();
 
@@ -70,6 +70,14 @@ function MyStack() {
       <Stack.Screen 
         name="beneficioPix" 
         component={BeneficioPix}
+        options={{
+          title: '',
+          headerTransparent: true,
+          headerShown: false,
+      }} />
+      <Stack.Screen 
+        name="Ponteira" 
+        component={Ponteira}
         options={{
           title: '',
           headerTransparent: true,
