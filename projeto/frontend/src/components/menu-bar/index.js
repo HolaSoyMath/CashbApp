@@ -16,7 +16,7 @@ export default function MenuBar({option, props}) {
   }
 
   const pagHistorico = () => {
-    props.navigation.navigate("Historico")
+    props.navigation.navigate("Ponteira")
   }
 
   const pagPerfil = () => {
