@@ -12,6 +12,7 @@ import BeneficioPix from './projeto/frontend/screens/beneficioPix'
 import VendaRegistrada from './projeto/frontend/screens/vendaRegistrada'
 import BeneficioInfo from './projeto/frontend/screens/beneficioInfo'
 import PontosTrocados from './projeto/frontend/screens/pontosTrocados'
+import PontosInsuficientes from './projeto/frontend/screens/pontosInsuficientes'
 
 
 const Stack = createStackNavigator();
@@ -60,6 +61,14 @@ function MyStack() {
           headerShown: false,
       }} /> 
       <Stack.Screen 
+        name="beneficioPix" 
+        component={BeneficioPix}
+        options={{
+          title: '',
+          headerTransparent: true,
+          headerShown: false,
+      }} /> 
+      <Stack.Screen 
         name="PontosTrocados" 
         component={PontosTrocados}
         options={{
@@ -68,13 +77,13 @@ function MyStack() {
           headerShown: false,
       }} /> 
       <Stack.Screen 
-        name="beneficioPix" 
-        component={BeneficioPix}
+        name="PontosInsuficientes" 
+        component={PontosInsuficientes}
         options={{
           title: '',
           headerTransparent: true,
           headerShown: false,
-      }} /> 
+      }} />
       <Stack.Screen 
         name="Historico" 
         component={Historico}

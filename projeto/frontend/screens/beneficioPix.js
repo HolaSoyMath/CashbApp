@@ -11,21 +11,38 @@ export default function BeneficioPix(props) {
 
   const solicitarTroca = async () => {
     try {
+      console.log('enviado solicitação de ', valor);
+      console.log({
+        method: 'PUT',
+        body: JSON.stringify({
+          cuid: Globais.id,
+          trocarPontos: valor
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
       // Faça a sua requisição à API aqui
       response = await fetch('https://soamer-api.onrender.com/trocar-pontos', {
             method: 'PUT',
             body: JSON.stringify({
               cuid: Globais.id,
-              trocarPontos: valor,
+              trocarPontos: parseInt(valor, 10)
             }),
             headers: {
               'Content-type': 'application/json; charset=UTF-8',
             },
           });
-      console.log(response);
+      console.log(response.status);
+      
+      if (response.status == 200) {
+        // Se der certo a alteração, encaminhar para a tela de "Pontos Trocados"
+        props.navigation.navigate("PontosTrocados");
+      } else {
+        // Caso não de, encaminhar para a tela de "Pontos Insuficientes"
+        props.navigation.navigate("PontosInsuficientes");
+      }
 
-      // Se der certo a alteração, encaminhar para a tela de "Pontos Trocados"
-      // Caso não de, encaminhar para a tela de "Pontos Insuficientes"
 
       // const responseData = await response.text();
       // const data = JSON.parse(responseData);
