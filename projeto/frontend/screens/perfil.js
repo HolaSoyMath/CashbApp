@@ -12,7 +12,7 @@ import iconEmail from '../src/images/perfil/email.png'
 import iconSenha from '../src/images/perfil/senha.png'
 import iconEndereco from '../src/images/perfil/endereco.png'
 import iconTelefone from '../src/images/perfil/telefone.png'
-import Globais from '../src/globais'
+import Globais from '../src/globais';
 import { MultiSelect } from 'react-native-element-dropdown'
 
 export default function Perfil(props) {
@@ -26,29 +26,6 @@ export default function Perfil(props) {
   const [cnpjSeller, setCnpjSeller] = useState();
   const [enderecoSeller, setEnderecoSeller] = useState();
   const [numEnderecoSeller, setNumEnderecoSeller] = useState();
-
-  const marcasIniciais = Globais.marcas;
-
-  const [selected, setSelected] = useState(marcasIniciais);
-  const marcas = [
-    { label: 'BMW', value: 1 },
-    { label: 'CHERY', value: 2 },
-    { label: 'CITROEN', value: 3 },
-    { label: 'FIAT', value: 4 },
-    { label: 'FORD', value: 5 },
-    { label: 'GM', value: 6 },
-    { label: 'HONDA', value: 7 },
-    { label: 'HYUNDAI', value: 8 },
-    { label: 'JEEP', value: 9 },
-    { label: 'NISSAN', value: 10 },
-    { label: 'PEUGEOT', value: 11 },
-    { label: 'RAM', value: 12 },
-    { label: 'TOYOTA', value: 13 },
-    { label: 'VOLKSWAGEN', value: 14 },
-  ];
-
-  console.log(selected);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +48,26 @@ export default function Perfil(props) {
 
     fetchData(); // Chame a função ao montar o componente
     }, []); // O segundo argumento vazio [] indica que isso só deve ser executado uma vez, equivalente a componentDidMount
+
+    const marcasIniciais = Globais.marcas
+    const [selected, setSelected] = useState(marcasIniciais);
+    const marcas = [
+      { label: 'BMW', value: 1 },
+      { label: 'CHERY', value: 2 },
+      { label: 'CITROEN', value: 3 },
+      { label: 'CHEVROLET', value: 4 },
+      { label: 'FIAT', value: 5 },
+      { label: 'FORD', value: 6 },
+      { label: 'GM', value: 7 },
+      { label: 'HONDA', value: 8 },
+      { label: 'HYUNDAI', value: 9 },
+      { label: 'JEEP', value: 10 },
+      { label: 'NISSAN', value: 11 },
+      { label: 'PEUGEOT', value: 12 },
+      { label: 'RAM', value: 13 },
+      { label: 'TOYOTA', value: 14 },
+      { label: 'VOLKSWAGEN', value: 15 },
+    ];
 
   const toggleAltInfo = () => {
     setAltInfo(!altInfo);
@@ -96,14 +93,15 @@ export default function Perfil(props) {
           <Image source={foto} style={styles.fotoPerfil} />
         </View>
       </View>
+      <View style={{height: 65}}/>
       <ScrollView>
-        <View style={{paddingLeft: 15, paddingRight: 15, marginTop: 80}}>
+        <View style={{paddingLeft: 15, paddingRight: 15}}>
 
           <InputPerfil 
             icone={iconPerfil} 
             nome={nomeSeller} 
             editar={1} 
-            onPress={toggleAltInfo}
+            onPress={() => toggleAltInfo}
             alterarInfo={altInfo}
           />
 
@@ -116,7 +114,7 @@ export default function Perfil(props) {
             icone={iconEmail} 
             nome={emailSeller} 
             editar={1} 
-            onPress={toggleAltInfo}
+            onPress={() => toggleAltInfo}
             alterarInfo={altInfo}
           />
 
@@ -124,7 +122,7 @@ export default function Perfil(props) {
             icone={iconTelefone} 
             nome={cellPhoneSeller} 
             editar={1} 
-            onPress={toggleAltInfo}
+            onPress={() => toggleAltInfo}
             alterarInfo={altInfo}
           />
 
@@ -132,7 +130,7 @@ export default function Perfil(props) {
             icone={iconSenha} 
             nome={senhaSeller} 
             editar={1} 
-            onPress={toggleAltInfo}
+            onPress={() => toggleAltInfo}
             alterarInfo={altInfo}
           />
 
@@ -144,7 +142,7 @@ export default function Perfil(props) {
           <View>
             <View style={[styles.containerInput, {width: "55%"}]}>
               <Image source={iconEndereco} style={[styles.iconEndereco, styles.iconInicio]} />
-              <TextInput style={styles.input} value={enderecoSeller} />
+                <TextInput style={styles.input} value={enderecoSeller} />
               <Image source={iconEditar} style={styles.iconEditar} />
               <View style={[styles.containerInput, {width: "71%", marginLeft: 10}]}>
                 <TextInput style={styles.input} value={numEnderecoSeller} />
@@ -152,7 +150,7 @@ export default function Perfil(props) {
               </View>
             </View>
           </View>
-          <MultiSelect
+        <MultiSelect
             style={stylesDropdown.dropdown}
             placeholderStyle={stylesDropdown.placeholderStyle}
             selectedTextStyle={stylesDropdown.selectedTextStyle}
@@ -171,19 +169,51 @@ export default function Perfil(props) {
             selectedStyle={styles.selectedStyle}
           />
         </View>
-
       </ScrollView>
       <View style={stylesButton.container}>
         {altInfo ? (
-          <ButtonSaveAlt onPress={handleSaveChanges} />
+          <ButtonSaveAlt onPress={() => handleSaveChanges} />
         ) : (
-          <ButtonSair onPress={props.navigation.navigate("Login")} />
+          <ButtonSair onPress={() => props.navigation.navigate("Login")} />
         )}
       </View>
       <MenuBar option = {4} props={props}></MenuBar>
     </View> 
   );
 }
+
+
+const stylesDropdown = StyleSheet.create({
+  container: { padding: 16,
+  },
+    dropdown: {
+      height: 50,
+      backgroundColor: 'transparent',
+      borderBottomColor: 'gray',
+      borderBottomWidth: 0.5,
+    },
+    placeholderStyle: {
+      fontSize: 16,
+    },
+    selectedTextStyle: {
+      fontSize: 14,
+    },
+    iconStyle: {
+      width: 20,
+      height: 20,
+    },
+    inputSearchStyle: {
+      height: 40,
+      fontSize: 16,
+    },
+    icon: {
+      marginRight: 5,
+    },
+    selectedStyle: {
+      borderRadius: 12,
+    },
+});
+
 
 const stylesButton = StyleSheet.create({
   container: {
@@ -249,7 +279,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     width: "80%",
-    color: '#1e1e1e50'
+    color: '#1e1e1e'
   },
   iconPerfil: {
     width: 15,
@@ -274,40 +304,10 @@ const styles = StyleSheet.create({
   iconEditar: {
     width: 14,
     height: 14,
-  }
-});
-
-
-const stylesDropdown = StyleSheet.create({
-  container: { padding: 16,
   },
-    dropdown: {
-      height: 50,
-      backgroundColor: 'transparent',
-      borderBottomColor: 'gray',
-      borderBottomWidth: 0.5,
-    },
-    placeholderStyle: {
-      fontSize: 16,
-    },
-    selectedTextStyle: {
-      fontSize: 14,
-    },
-    iconStyle: {
-      width: 20,
-      height: 20,
-    },
-    inputSearchStyle: {
-      height: 40,
-      fontSize: 16,
-    },
-    icon: {
-      marginRight: 5,
-    },
-    selectedStyle: {
-      borderRadius: 12,
-    },
 });
+
+
 
 
 const styles2 = StyleSheet.create({

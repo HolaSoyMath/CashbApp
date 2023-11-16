@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 80,
     backgroundColor: '#E0E0E0',
-    borderRadius: 10
+    borderRadius: 10,
+    marginBottom: 10,
   },
 
   imagem1:{
@@ -35,7 +36,7 @@ const ButtonPonteira = ({title, text, pontos, onPress, imageSource }) => {
           <Text style={{color: '#1E1E1E', fontSize: 14}}>{text}</Text>
         </View>
        
-        <Text style={{backgroundColor: '#2A59C2', color: '#f2f2f2', padding: 5, borderRadius: 5, fontWeight: '500', marginStart: 50}}>{pontos}</Text>
+        <Text style={{backgroundColor: '#2A59C2', color: '#f2f2f2', padding: 5, borderRadius: 5, fontWeight: '500', marginStart: 110}}>{pontos}</Text>
      
       </TouchableOpacity>
   );

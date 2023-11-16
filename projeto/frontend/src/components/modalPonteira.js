@@ -67,8 +67,8 @@ const Modal = ({ show, close }) => {
                       showsHorizontalScrollIndicator={false}
                       style={styles.scrollView}
                     >
-                    <Image source={require('../../assets/carro1.png')} style={styles.cardStyle}/>
-                    <Image source={require('../../assets/carro2.png')} style={styles.cardStyle}/>
+                    <Image source={require('../images/ponteiras/hilux1.png')} style={styles.cardStyle}/>
+                    <Image source={require('../images/ponteiras/hilux2.png')} style={styles.cardStyle}/>
                 </ScrollView>
                     <ButtonClose onPress={close} />
                 </View>

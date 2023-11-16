@@ -39,7 +39,7 @@ export default function Historico(props){
             <BlocoVendas ponteira={'Ponteira de bocal único Black Piano'} veiculo={'TOYOTA YARIS SEDAN'} status={1}/>
         </View>
       </ScrollView>
-      <MenuBar option = {3} props={props}></MenuBar>
+      
       <Modal 
         show={modal}
         
