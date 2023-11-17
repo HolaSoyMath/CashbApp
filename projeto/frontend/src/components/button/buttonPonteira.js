@@ -20,7 +20,9 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingStart: 4,
     paddingEnd: 4,
-    marginStart: 10
+    marginStart: 10,
+    width: 60,
+    height: 62
   },
 
 });
@@ -31,12 +33,13 @@ const ButtonPonteira = ({title, text, pontos, onPress, imageSource }) => {
         <View style={styles.imagem1}>
           <Image source={imageSource} />
         </View>
-        <View style={{marginStart: 20}}>
+        <View style={{marginStart: 20, width: 200}}>
           <Text style={{color: '#1E1E1E', fontWeight: '600', fontSize: 16}}>{title}</Text>
           <Text style={{color: '#1E1E1E', fontSize: 14}}>{text}</Text>
         </View>
-       
-        <Text style={{backgroundColor: '#2A59C2', color: '#f2f2f2', padding: 5, borderRadius: 5, fontWeight: '500', marginStart: 110}}>{pontos}</Text>
+        <View style={{backgroundColor: '#2A59C2', borderRadius: 5, alignItems: 'center', width: 30}}>
+          <Text style={{ color: '#f2f2f2', padding: 5, fontWeight: '500', }}>+{pontos}</Text>
+        </View>
      
       </TouchableOpacity>
   );
