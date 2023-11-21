@@ -59,7 +59,7 @@ const Modal = ({ show, close }) => {
                 
                 <Titulo 
                         title= "Ponteira Única Polida"
-                        texto= "Ram Laramie 1500 Rebel e Limited"
+                        texto= "Toyota Hilux SRX"
                     />
                 <View style={styles.container2}>
                     <ScrollView 

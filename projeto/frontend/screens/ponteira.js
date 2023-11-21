@@ -9,6 +9,7 @@ import teste from '../src/images/ponteiras/base/ponteiraUnicaPolida.png';
 
 const Ponteira = (props) => {
   const [modal, setModal] = useState(false)
+  const [dados, setDados] = useState([]);
   const [iconePonteira, setIconePonteira] = useState(); // Ícone da ponteira
   const [imagem1, setImagem1] = useState(); // Imagem da ponteira instalada no veículo (ANTES)
   const [imagem2, setImagem2] = useState(); // Imagem da ponteira instalada no veículo (DEPOIS)
@@ -17,14 +18,19 @@ const Ponteira = (props) => {
   const [nomeVeiculo, setNomeVeiculo] = useState(); // Qual o nome do veículo
 
   useEffect(() => {
-    setIconePonteira({imagem: require('../src/images/ponteiras/base/ponteiraUnicaPolida.png')});
-    setImagem1('../src/images/ponteiras/hilux1.png');
-    setImagem2('../src/images/ponteiras/hilux1.png');
-    setPontosVenda('+10');
-    setTipoPonteira('Duplo polida');
-    setNomeVeiculo('Hi lux');
-  }, [])
-  console.log(iconePonteira.nature)
+    const carregarDados = async () => {
+      try {
+        const response = await fetch(`https://soamer-api.onrender.com/ponteiras`);
+        const responseData = await response.text();
+        const data = JSON.parse(responseData);
+        setDados(data);
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+      }
+    };
+  
+    carregarDados();
+  }, []); // O segundo argumento vazio [] indica que isso só deve ser executado uma vez, equivalente a componentDidMount
 
   return (
     <View style={styles.container}>
@@ -43,15 +49,21 @@ const Ponteira = (props) => {
         imageSource={require('../assets/Search.png')}
       />
       <View style={styles.main}>
-        <ScrollView>
-          <ButtonPonteira
-            imageSource={iconePonteira.imagem}
-            title= {tipoPonteira}
-            text= {nomeVeiculo}
-            pontos={pontosVenda}
-            onPress={() =>setModal(true)}
-          /> 
-        </ScrollView>
+      <ScrollView>
+        {dados.map((element) => {
+          // console.log(typeof element.photoUrl)
+          // console.log(element.photoUrl)
+          return (
+            <ButtonPonteira
+              imageSource={require('../src/images/ponteiras/base/ponteiraUnicaPolida.png')}
+              title={element.nameProduct}
+              text={element.carName}
+              pontos={element.qtdPontos}
+              onPress={() => setModal(true)}
+            />
+          );
+        })}
+      </ScrollView>
       </View>
       <View style={styles.footer}>
         <MenuBar option = {3} props={props}></MenuBar>
