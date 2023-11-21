@@ -128,7 +128,7 @@ export default function Perfil(props) {
 
           <InputPerfil 
             icone={iconSenha} 
-            nome={senhaSeller} 
+            nome={"******"} 
             editar={1} 
             onPress={() => toggleAltInfo}
             alterarInfo={altInfo}
@@ -172,7 +172,7 @@ export default function Perfil(props) {
       </ScrollView>
       <View style={stylesButton.container}>
         {altInfo ? (
-          <ButtonSaveAlt onPress={() => handleSaveChanges} />
+          <ButtonSaveAlt onPress={() => handleSaveChanges()} />
         ) : (
           <ButtonSair onPress={() => props.navigation.navigate("Login")} />
         )}

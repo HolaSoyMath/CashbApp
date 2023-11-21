@@ -51,8 +51,8 @@ const Ponteira = (props) => {
       <View style={styles.main}>
       <ScrollView>
         {dados.map((element) => {
-          console.log(typeof element.photoUrl)
-          console.log(element.photoUrl)
+          // console.log(typeof element.photoUrl)
+          // console.log(element.photoUrl)
           return (
             <ButtonPonteira
               imageSource={require('../src/images/ponteiras/base/ponteiraUnicaPolida.png')}

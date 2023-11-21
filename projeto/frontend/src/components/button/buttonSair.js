@@ -1,10 +1,12 @@
+import { useLinkProps } from '@react-navigation/native';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-export default function ButtonSair() {
+export default function ButtonSair({onPress}) {
+
 
     return (
       <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={onPress}>
           <Text style={styles.textButton}>Sair</Text>
         </TouchableOpacity>
       </View>

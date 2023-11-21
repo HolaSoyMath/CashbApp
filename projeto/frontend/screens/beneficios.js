@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar, ScrollView, Image} from 'react-native'  
 import MenuBar from '../src/components/menu-bar/index'
 import Nome from '../src/components/beneficio/nome'
@@ -12,9 +12,37 @@ import cpnRappi from '../src/images/beneficio/cupomRappi.png'
 import cpnRenner from '../src/images/beneficio/cupomRenner.png'
 import cpnAmericanas from '../src/images/beneficio/cupomAmericanas.png'
 import cpnHavan from '../src/images/beneficio/cupomHavan.png'
+import Globais from '../src/globais'
 
 
 export default function Beneficios(props) {
+
+  const [nomeSeller, setNomeSeller] = useState();
+  const [pontos, setPontos] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Faça a sua requisição à API aqui
+        let response = await fetch(
+          `https://soamer-api.onrender.com/home/pontos-validade?cuid=${Globais.id}`
+        );
+        let responseData = await response.text();
+        let data = JSON.parse(responseData);
+        setPontos(data.points[0].points);
+        
+        response = await fetch(`https://soamer-api.onrender.com/seller-info?cuid=${Globais.id}`); // requisição de retorno dos dados de perfil
+        responseData = await response.text();  // Receber a resposta em texto
+        data = JSON.parse(responseData); //Transformar o texto em JSON
+        setNomeSeller(data.sellerName)
+
+      } catch (error) {
+        console.error('Erro na Requisição:', error);
+      }
+    };
+
+    fetchData(); // Chame a função ao montar o componente
+    }, []); // O segundo argumento vazio [] indica que isso só deve ser executado uma vez, equivalente a componentDidMount
 
   return(
     <View style={stylesPrincipal.principal}>
@@ -26,9 +54,9 @@ export default function Beneficios(props) {
       />
 
       <View style={[stylesHeader.header]}>
-        <Nome texto='Matheus Guimarães' />
+        <Nome texto={nomeSeller} />
 
-        <ValorValidade valor='100.00' validade='3m 2d' />
+        <ValorValidade valor={pontos} validade='2m 2d' />
 
         <View style={[stylesHeader.containerFiltros]}>
           <View style={[stylesHeader.filtro]}>
